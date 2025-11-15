@@ -1,93 +1,71 @@
-import { useNavigate } from "react-router-dom";
-import { User, Lock, Bell, Shield, LogOut, ChevronRight } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/auth";
+import { supabase } from "@/integrations/supabase/client";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const SettingsTab = () => {
-  const navigate = useNavigate();
+  const { signOut, user } = useAuth();
+  const [username, setUsername] = useState("");
 
-  const settingsSections = [
-    {
-      title: "Account",
-      items: [
-        { icon: User, label: "Username", value: "anonymous_user" },
-        { icon: Lock, label: "Change Password", value: "" },
-      ],
-    },
-    {
-      title: "Privacy",
-      items: [
-        { icon: Bell, label: "Notifications", value: "Enabled" },
-        { icon: Shield, label: "Anonymous Mode", value: "Always On" },
-      ],
-    },
-  ];
+  useEffect(() => {
+    loadProfile();
+  }, [user]);
+
+  const loadProfile = async () => {
+    if (!user) return;
+
+    const { data } = await supabase
+      .from('profiles')
+      .select('username')
+      .eq('id', user.id)
+      .single();
+
+    if (data) {
+      setUsername(data.username);
+    }
+  };
 
   return (
-    <div className="h-full overflow-y-auto p-6 space-y-6">
-      {/* Profile Card */}
-      <div className="glass-blur rounded-3xl p-6 border border-soft-royal-blue/20">
-        <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-accent to-pale-cyan flex items-center justify-center">
-            <User className="w-8 h-8 text-midnight-blue" />
-          </div>
-          <div>
-            <h2 className="text-xl font-semibold text-soft-white">
-              anonymous_user
-            </h2>
-            <p className="text-sm text-grey-blue">Student</p>
-          </div>
-        </div>
-      </div>
+    <div className="space-y-6">
+      <h2 className="text-xl font-semibold text-soft-white">Settings</h2>
 
-      {/* Settings Sections */}
-      {settingsSections.map((section, idx) => (
-        <div key={idx} className="space-y-3">
-          <h3 className="text-sm font-semibold text-grey-blue uppercase tracking-wider px-2">
-            {section.title}
-          </h3>
-          <div className="glass-blur rounded-2xl border border-soft-royal-blue/20 divide-y divide-soft-royal-blue/10">
-            {section.items.map((item, itemIdx) => {
-              const Icon = item.icon;
-              return (
-                <button
-                  key={itemIdx}
-                  className="w-full px-4 py-4 flex items-center gap-4 hover:bg-soft-royal-blue/20 transition-colors first:rounded-t-2xl last:rounded-b-2xl"
-                >
-                  <Icon className="w-5 h-5 text-cyan-accent flex-shrink-0" />
-                  <div className="flex-1 text-left">
-                    <p className="text-soft-white font-medium">{item.label}</p>
-                    {item.value && (
-                      <p className="text-sm text-grey-blue">{item.value}</p>
-                    )}
-                  </div>
-                  <ChevronRight className="w-5 h-5 text-grey-blue flex-shrink-0" />
-                </button>
-              );
-            })}
+      <div className="space-y-4">
+        <div className="glass-blur rounded-2xl p-6 border border-soft-royal-blue/30">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-accent/20 to-deep-indigo flex items-center justify-center">
+              <User className="w-8 h-8 text-cyan-accent" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-soft-white text-lg">
+                {username || "Anonymous"}
+              </h3>
+              <p className="text-grey-blue text-sm">Your anonymous handle</p>
+            </div>
           </div>
         </div>
-      ))}
 
-      {/* About Section */}
-      <div className="glass-blur rounded-2xl p-6 border border-soft-royal-blue/20">
-        <h3 className="text-lg font-semibold text-soft-white mb-2">
-          About Cloak
-        </h3>
-        <p className="text-sm text-grey-blue leading-relaxed">
-          Student freedom, safety, and anonymity. Express yourself without
-          labels or judgment. Your privacy is our priority.
-        </p>
+        <div className="glass-blur rounded-2xl p-6 border border-soft-royal-blue/30 space-y-4">
+          <h3 className="font-semibold text-soft-white">About Cloak</h3>
+          <p className="text-grey-blue text-sm leading-relaxed">
+            Cloak is a secure, anonymous social app designed for students. Your
+            privacy and freedom of expression are our top priorities. No real
+            names, no emails, no judgment—just authentic connection.
+          </p>
+        </div>
+
+        <Button
+          onClick={() => {
+            signOut();
+            toast.success("Signed out successfully");
+          }}
+          className="w-full h-12 bg-gradient-to-r from-amber to-amber/80 hover:from-amber/90 hover:to-amber/70 text-midnight-blue font-semibold rounded-2xl"
+        >
+          <LogOut className="w-5 h-5 mr-2" />
+          Sign Out
+        </Button>
       </div>
-
-      {/* Logout Button */}
-      <Button
-        onClick={() => navigate("/")}
-        variant="outline"
-        className="w-full h-12 rounded-2xl border-destructive/50 text-destructive hover:bg-destructive/10"
-      >
-        <LogOut className="w-5 h-5 mr-2" />
-        Logout
-      </Button>
     </div>
   );
 };
