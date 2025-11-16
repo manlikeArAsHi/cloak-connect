@@ -1,24 +1,44 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Shield, Eye, EyeOff } from "lucide-react";
+import { Shield, Eye, EyeOff, Loader2 } from "lucide-react";
+import { useAuth } from "@/lib/auth";
+import { toast } from "sonner";
 
 const Login = () => {
-  const navigate = useNavigate();
+  const { signIn, signUp, loading } = useAuth();
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     password: "",
-    accessCode: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // For now, just navigate to home - will integrate backend later
-    navigate("/home");
+    
+    if (formData.username.length < 3) {
+      toast.error("Username must be at least 3 characters");
+      return;
+    }
+    
+    if (formData.password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
+
+    try {
+      if (isSignUp) {
+        await signUp(formData.username, formData.password);
+        toast.success("Account created successfully!");
+      } else {
+        await signIn(formData.username, formData.password);
+        toast.success("Signed in successfully!");
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Authentication failed");
+    }
   };
 
   return (
@@ -67,6 +87,7 @@ const Login = () => {
                 }
                 className="bg-deep-indigo/50 border-soft-royal-blue text-soft-white placeholder:text-grey-blue rounded-2xl h-12"
                 required
+                disabled={loading}
               />
             </div>
 
@@ -85,11 +106,13 @@ const Login = () => {
                   }
                   className="bg-deep-indigo/50 border-soft-royal-blue text-soft-white placeholder:text-grey-blue rounded-2xl h-12 pr-12"
                   required
+                  disabled={loading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-grey-blue hover:text-cyan-accent transition-colors"
+                  disabled={loading}
                 >
                   {showPassword ? (
                     <EyeOff className="w-5 h-5" />
@@ -100,29 +123,19 @@ const Login = () => {
               </div>
             </div>
 
-            {isSignUp && (
-              <div className="space-y-2">
-                <Label htmlFor="accessCode" className="text-soft-white">
-                  School Access Code (Optional)
-                </Label>
-                <Input
-                  id="accessCode"
-                  type="text"
-                  placeholder="Enter code if you have one"
-                  value={formData.accessCode}
-                  onChange={(e) =>
-                    setFormData({ ...formData, accessCode: e.target.value })
-                  }
-                  className="bg-deep-indigo/50 border-soft-royal-blue text-soft-white placeholder:text-grey-blue rounded-2xl h-12"
-                />
-              </div>
-            )}
-
             <Button
               type="submit"
-              className="w-full h-12 bg-gradient-to-r from-cyan-accent to-cyan-accent/80 hover:from-cyan-accent/90 hover:to-cyan-accent/70 text-midnight-blue font-semibold rounded-2xl shadow-glow"
+              className="w-full h-12 rounded-2xl bg-gradient-to-r from-cyan-accent to-soft-royal-blue hover:opacity-90 text-soft-white font-medium transition-all shadow-glow"
+              disabled={loading}
             >
-              {isSignUp ? "Create Account" : "Sign In"}
+              {loading ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  {isSignUp ? "Creating Account..." : "Signing In..."}
+                </>
+              ) : (
+                <>{isSignUp ? "Create Account" : "Sign In"}</>
+              )}
             </Button>
           </form>
 
