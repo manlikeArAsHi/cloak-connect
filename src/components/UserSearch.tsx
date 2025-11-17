@@ -71,27 +71,25 @@ const UserSearch = ({ onClose }: UserSearchProps) => {
         }
       }
 
-      // Create new conversation
-      const { data: conversation, error: convError } = await supabase
-        .from("conversations")
-        .insert({})
-        .select()
-        .single();
+      // Generate a UUID for the new conversation
+      const conversationId = crypto.randomUUID();
 
-      if (convError) throw convError;
-
-      // Add both participants
-      const { error: partError } = await supabase
+      // Step 1: Add current user as first participant
+      const { error: firstPartError } = await supabase
         .from("conversation_participants")
-        .insert([
-          { conversation_id: conversation.id, user_id: user.id },
-          { conversation_id: conversation.id, user_id: otherUserId },
-        ]);
+        .insert({ conversation_id: conversationId, user_id: user.id });
 
-      if (partError) throw partError;
+      if (firstPartError) throw firstPartError;
+
+      // Step 2: Add the other user as second participant
+      const { error: secondPartError } = await supabase
+        .from("conversation_participants")
+        .insert({ conversation_id: conversationId, user_id: otherUserId });
+
+      if (secondPartError) throw secondPartError;
 
       toast.success("Conversation started!");
-      navigate(`/dm/${conversation.id}`);
+      navigate(`/dm/${conversationId}`);
       onClose?.();
     } catch (error: any) {
       toast.error("Failed to start conversation");
