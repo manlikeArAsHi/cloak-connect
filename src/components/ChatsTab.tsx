@@ -9,6 +9,7 @@ import UserSearch from "./UserSearch";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -47,9 +48,10 @@ const ChatsTab = () => {
     if (!user) return;
 
     try {
+      // Get all conversation IDs for current user
       const { data: myConversations, error } = await supabase
         .from("conversation_participants")
-        .select("conversation_id, conversations(*)")
+        .select("conversation_id")
         .eq("user_id", user.id);
 
       if (error) throw error;
@@ -71,12 +73,11 @@ const ChatsTab = () => {
             .from("profiles")
             .select("username")
             .eq("id", otherParticipants[0].user_id)
-            .single();
+            .maybeSingle();
 
           return {
             id: conv.conversation_id,
             username: profile?.username || "Unknown",
-            updated_at: conv.conversations?.updated_at,
           };
         })
       );
@@ -104,6 +105,9 @@ const ChatsTab = () => {
           <DialogContent className="bg-midnight-blue border-soft-royal-blue">
             <DialogHeader>
               <DialogTitle className="text-soft-white">Search Users</DialogTitle>
+              <DialogDescription className="text-grey-blue">
+                Find and start conversations with other users
+              </DialogDescription>
             </DialogHeader>
             <UserSearch onClose={() => setSearchOpen(false)} />
           </DialogContent>

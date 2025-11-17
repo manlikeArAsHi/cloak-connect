@@ -71,17 +71,22 @@ const UserSearch = ({ onClose }: UserSearchProps) => {
         }
       }
 
-      // Generate a UUID for the new conversation
+      // Step 1: Create the conversation record first
       const conversationId = crypto.randomUUID();
+      const { error: convError } = await supabase
+        .from("conversations")
+        .insert({ id: conversationId });
 
-      // Step 1: Add current user as first participant
+      if (convError) throw convError;
+
+      // Step 2: Add current user as first participant
       const { error: firstPartError } = await supabase
         .from("conversation_participants")
         .insert({ conversation_id: conversationId, user_id: user.id });
 
       if (firstPartError) throw firstPartError;
 
-      // Step 2: Add the other user as second participant
+      // Step 3: Add the other user as second participant
       const { error: secondPartError } = await supabase
         .from("conversation_participants")
         .insert({ conversation_id: conversationId, user_id: otherUserId });
