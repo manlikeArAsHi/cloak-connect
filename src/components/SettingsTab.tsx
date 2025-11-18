@@ -4,6 +4,7 @@ import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import SpecialAccessButton from "./SpecialAccessButton";
 
 const SettingsTab = () => {
   const { signOut, user } = useAuth();
@@ -54,6 +55,8 @@ const SettingsTab = () => {
             names, no emails, no judgment—just authentic connection.
           </p>
         </div>
+
+        <SpecialAccessButton />
 
         <Button
           onClick={() => {
