@@ -44,6 +44,27 @@ export type Database = {
         }
         Relationships: []
       }
+      blocked_users: {
+        Row: {
+          blocked_id: string
+          blocker_id: string
+          created_at: string
+          id: string
+        }
+        Insert: {
+          blocked_id: string
+          blocker_id: string
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          blocked_id?: string
+          blocker_id?: string
+          created_at?: string
+          id?: string
+        }
+        Relationships: []
+      }
       conversation_participants: {
         Row: {
           conversation_id: string
@@ -96,8 +117,11 @@ export type Database = {
           content: string
           conversation_id: string
           created_at: string
+          deleted_at: string | null
           id: string
           is_voice_note: boolean | null
+          media_type: string | null
+          media_url: string | null
           sender_id: string
           voice_note_url: string | null
         }
@@ -105,8 +129,11 @@ export type Database = {
           content: string
           conversation_id: string
           created_at?: string
+          deleted_at?: string | null
           id?: string
           is_voice_note?: boolean | null
+          media_type?: string | null
+          media_url?: string | null
           sender_id: string
           voice_note_url?: string | null
         }
@@ -114,8 +141,11 @@ export type Database = {
           content?: string
           conversation_id?: string
           created_at?: string
+          deleted_at?: string | null
           id?: string
           is_voice_note?: boolean | null
+          media_type?: string | null
+          media_url?: string | null
           sender_id?: string
           voice_note_url?: string | null
         }
@@ -338,7 +368,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "user"
+      app_role: "admin" | "user" | "special"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -466,7 +496,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "user"],
+      app_role: ["admin", "user", "special"],
     },
   },
 } as const
