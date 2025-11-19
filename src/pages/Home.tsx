@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { MessageSquare, Users, Settings, Plus } from "lucide-react";
-import NavButton from "@/components/NavButton";
+import { MessageSquare, Users, Settings, Plus, User } from "lucide-react";
 import ChatsTab from "@/components/ChatsTab";
 import GroupsTab from "@/components/GroupsTab";
 import SettingsTab from "@/components/SettingsTab";
@@ -23,46 +22,74 @@ const Home = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-midnight-blue">
-      {/* Header */}
-      <header className="glass-blur border-b border-soft-royal-blue/30 px-6 py-4">
-        <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-accent to-soft-royal-blue bg-clip-text text-transparent">
-          CLOAK
-        </h1>
-      </header>
-
-      {/* Content */}
-      <main className="flex-1 overflow-y-auto p-6">{renderContent()}</main>
-
-      {/* Bottom Navigation */}
-      <nav className="glass-blur border-t border-soft-royal-blue/30 px-4 py-3">
-        <div className="flex items-center justify-around max-w-md mx-auto">
-          <NavButton
-            icon={<Plus />}
-            label="Status"
-            isActive={activeTab === "statuses"}
-            onClick={() => setActiveTab("statuses")}
-          />
-          <NavButton
-            icon={<MessageSquare />}
-            label="Chats"
-            isActive={activeTab === "chats"}
-            onClick={() => setActiveTab("chats")}
-          />
-          <NavButton
-            icon={<Users />}
-            label="Groups"
-            isActive={activeTab === "groups"}
-            onClick={() => setActiveTab("groups")}
-          />
-          <NavButton
-            icon={<Settings />}
-            label="Settings"
-            isActive={activeTab === "settings"}
-            onClick={() => setActiveTab("settings")}
-          />
+    <div className="h-screen flex bg-midnight-blue">
+      {/* Left Side Panel */}
+      <aside className="w-20 glass-blur border-r border-soft-royal-blue/30 flex flex-col items-center py-6 gap-6">
+        {/* Logo */}
+        <div className="mb-4">
+          <h1 className="text-xl font-bold bg-gradient-to-r from-cyan-accent to-soft-royal-blue bg-clip-text text-transparent">
+            C
+          </h1>
         </div>
-      </nav>
+
+        {/* Navigation Buttons */}
+        <button
+          onClick={() => setActiveTab("statuses")}
+          className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${
+            activeTab === "statuses"
+              ? "bg-cyan-accent/20 text-cyan-accent shadow-glow"
+              : "text-grey-blue hover:text-cyan-accent hover:bg-soft-royal-blue/30"
+          }`}
+        >
+          <Plus size={24} />
+        </button>
+
+        <button
+          onClick={() => setActiveTab("chats")}
+          className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${
+            activeTab === "chats"
+              ? "bg-cyan-accent/20 text-cyan-accent shadow-glow"
+              : "text-grey-blue hover:text-cyan-accent hover:bg-soft-royal-blue/30"
+          }`}
+        >
+          <MessageSquare size={24} />
+        </button>
+
+        <button
+          onClick={() => setActiveTab("groups")}
+          className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${
+            activeTab === "groups"
+              ? "bg-cyan-accent/20 text-cyan-accent shadow-glow"
+              : "text-grey-blue hover:text-cyan-accent hover:bg-soft-royal-blue/30"
+          }`}
+        >
+          <Users size={24} />
+        </button>
+
+        <button
+          onClick={() => setActiveTab("settings")}
+          className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${
+            activeTab === "settings"
+              ? "bg-cyan-accent/20 text-cyan-accent shadow-glow"
+              : "text-grey-blue hover:text-cyan-accent hover:bg-soft-royal-blue/30"
+          }`}
+        >
+          <Settings size={24} />
+        </button>
+      </aside>
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col">
+        {/* Header */}
+        <header className="glass-blur border-b border-soft-royal-blue/30 px-6 py-4">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-accent to-soft-royal-blue bg-clip-text text-transparent">
+            CLOAK
+          </h1>
+        </header>
+
+        {/* Content */}
+        <main className="flex-1 overflow-y-auto p-6">{renderContent()}</main>
+      </div>
     </div>
   );
 };
