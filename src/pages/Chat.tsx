@@ -144,34 +144,43 @@ const Chat = () => {
   };
 
   return (
-    <div className={`h-screen flex flex-col ${wallpaper}`}>
+    <div className={`h-screen flex flex-col relative overflow-hidden ${wallpaper}`}>
+      {/* Animated Background */}
+      <div className="absolute inset-0 animated-bg opacity-40 pointer-events-none" />
+      
       {/* Header */}
-      <header className="glass-blur border-b border-soft-royal-blue/30 px-4 py-3">
+      <header className="glass-panel border-b border-glass-border px-4 py-3 relative z-10">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button
               onClick={() => navigate("/home")}
-              className="text-grey-blue hover:text-cyan-accent transition-colors"
+              className="text-muted-grey hover:text-purple-accent transition-colors"
             >
               <ArrowLeft className="w-6 h-6" />
             </button>
-            <div>
-              <h2 className="font-semibold text-soft-white">
-                {groupInfo?.name || "Chat"}
-              </h2>
-              <p className="text-xs text-grey-blue">{groupInfo?.description}</p>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-accent to-teal-accent flex items-center justify-center text-deep-black font-semibold relative">
+                {groupInfo?.name?.charAt(0) || "G"}
+                <span className="absolute bottom-0 right-0 w-3 h-3 bg-teal-accent rounded-full border-2 border-deep-black" />
+              </div>
+              <div>
+                <h2 className="font-semibold text-frosted-white">
+                  {groupInfo?.name || "Chat"}
+                </h2>
+                <p className="text-xs text-muted-grey">{groupInfo?.description}</p>
+              </div>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowWallpaperDialog(true)}
-              className="text-grey-blue hover:text-cyan-accent transition-colors"
+              className="text-muted-grey hover:text-purple-accent transition-colors"
             >
               <Palette className="w-5 h-5" />
             </button>
             <button
               onClick={() => setShowReportDialog(true)}
-              className="text-grey-blue hover:text-cyan-accent transition-colors"
+              className="text-muted-grey hover:text-purple-accent transition-colors"
             >
               <MoreVertical className="w-6 h-6" />
             </button>
@@ -180,7 +189,7 @@ const Chat = () => {
       </header>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 space-y-3 relative z-10">
         {messages.map((msg) => (
           <div
             key={msg.id}
@@ -192,15 +201,15 @@ const Chat = () => {
               }`}
             >
               {!msg.isSelf && (
-                <p className="text-xs text-cyan-accent font-medium px-4">
+                <p className="text-xs text-purple-accent font-medium px-4">
                   {msg.sender}
                 </p>
               )}
               <div
-                className={`rounded-3xl px-4 py-3 ${
+                className={`rounded-2xl px-4 py-3 ${
                   msg.isSelf
-                    ? "bg-gradient-to-br from-cyan-accent to-cyan-accent/80 text-midnight-blue rounded-br-lg"
-                    : "bg-deep-indigo text-soft-white rounded-bl-lg"
+                    ? "chat-bubble-sent text-deep-black rounded-br-md"
+                    : "chat-bubble-received text-frosted-white rounded-bl-md"
                 }`}
               >
                 {msg.is_voice_note ? (
@@ -211,8 +220,11 @@ const Chat = () => {
                   <p className="text-sm leading-relaxed">{msg.content}</p>
                 )}
               </div>
-              <p className="text-xs text-grey-blue px-4">
-                {new Date(msg.created_at).toLocaleTimeString()}
+              <p className="text-xs text-muted-grey px-4">
+                {new Date(msg.created_at).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
               </p>
             </div>
           </div>
@@ -220,22 +232,22 @@ const Chat = () => {
       </div>
 
       {/* Input Bar */}
-      <div className="glass-blur border-t border-soft-royal-blue/30 p-4">
-        <div className="flex items-center gap-2">
+      <div className="glass-panel border-t border-glass-border p-4 relative z-10">
+        <div className="flex items-center gap-3">
           <Input
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && handleSend()}
             placeholder="Type a message..."
-            className="flex-1 bg-deep-indigo/50 border-soft-royal-blue text-soft-white placeholder:text-grey-blue rounded-3xl h-11"
+            className="flex-1 glass-panel border-glass-border text-frosted-white placeholder:text-muted-grey focus:border-purple-accent rounded-2xl h-11"
           />
           {message.trim() ? (
             <Button
               onClick={handleSend}
               size="icon"
-              className="w-11 h-11 rounded-full bg-gradient-to-br from-cyan-accent to-cyan-accent/80 hover:from-cyan-accent/90 hover:to-cyan-accent/70"
+              className="w-11 h-11 rounded-xl bg-gradient-to-r from-purple-accent to-teal-accent hover:shadow-[var(--shadow-glow-teal)] text-deep-black"
             >
-              <Send className="w-5 h-5 text-midnight-blue" />
+              <Send className="w-5 h-5" />
             </Button>
           ) : (
             <VoiceNoteRecorder onRecordingComplete={handleVoiceNoteRecorded} />

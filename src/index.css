@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,62 +10,61 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Cloak Midnight Blue Theme */
-    --midnight-blue: 210 58% 11%;
-    --deep-indigo: 210 54% 18%;
-    --soft-royal-blue: 210 52% 25%;
-    --cyan-accent: 195 100% 62%;
-    --mint-green: 157 72% 58%;
-    --amber-warning: 42 100% 66%;
-    
-    /* Text colors */
-    --soft-white: 210 25% 96%;
-    --grey-blue: 210 18% 57%;
-    --pale-cyan: 195 75% 81%;
+    /* Cloak Dark Cyber Theme */
+    --deep-black: 225 47% 5%;
+    --glass-panel: 225 35% 12%;
+    --glass-border: 225 20% 25%;
+    --purple-accent: 262 83% 76%;
+    --teal-accent: 174 72% 66%;
+    --frosted-white: 225 10% 92%;
+    --muted-grey: 225 10% 60%;
     
     /* Semantic tokens */
-    --background: 210 58% 11%;
-    --foreground: 210 25% 96%;
+    --background: 225 47% 5%;
+    --foreground: 225 10% 92%;
     
-    --card: 210 54% 18%;
-    --card-foreground: 210 25% 96%;
+    --card: 225 35% 12%;
+    --card-foreground: 225 10% 92%;
     
-    --popover: 210 54% 18%;
-    --popover-foreground: 210 25% 96%;
+    --popover: 225 35% 12%;
+    --popover-foreground: 225 10% 92%;
     
-    --primary: 195 100% 62%;
-    --primary-foreground: 210 58% 11%;
+    --primary: 262 83% 76%;
+    --primary-foreground: 225 47% 5%;
     
-    --secondary: 210 52% 25%;
-    --secondary-foreground: 210 25% 96%;
+    --secondary: 225 35% 12%;
+    --secondary-foreground: 225 10% 92%;
     
-    --muted: 210 54% 18%;
-    --muted-foreground: 210 18% 57%;
+    --muted: 225 35% 12%;
+    --muted-foreground: 225 10% 60%;
     
-    --accent: 195 100% 62%;
-    --accent-foreground: 210 58% 11%;
+    --accent: 174 72% 66%;
+    --accent-foreground: 225 47% 5%;
     
-    --success: 157 72% 58%;
-    --success-foreground: 210 58% 11%;
+    --success: 174 72% 66%;
+    --success-foreground: 225 47% 5%;
     
     --warning: 42 100% 66%;
-    --warning-foreground: 210 58% 11%;
+    --warning-foreground: 225 47% 5%;
     
     --destructive: 0 72% 51%;
-    --destructive-foreground: 210 25% 96%;
+    --destructive-foreground: 225 10% 92%;
     
-    --border: 210 52% 25%;
-    --input: 210 54% 18%;
-    --ring: 195 100% 62%;
+    --border: 225 20% 25%;
+    --input: 225 35% 12%;
+    --ring: 174 72% 66%;
     
-    --radius: 1.25rem;
+    --radius: 1rem;
     
     /* Gradients */
-    --gradient-cyan: linear-gradient(135deg, hsl(195 100% 62%) 0%, hsl(195 100% 72%) 100%);
+    --gradient-purple-teal: linear-gradient(135deg, hsl(262 83% 76%) 0%, hsl(174 72% 66%) 100%);
+    --gradient-mesh: radial-gradient(at 0% 0%, hsl(262 83% 76% / 0.2) 0px, transparent 50%),
+                     radial-gradient(at 100% 100%, hsl(174 72% 66% / 0.2) 0px, transparent 50%);
     
     /* Shadows */
-    --shadow-soft: 0 4px 24px -4px hsl(210 58% 11% / 0.3);
-    --shadow-glow: 0 0 40px hsl(195 100% 62% / 0.2);
+    --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --shadow-glow-purple: 0 0 40px hsl(262 83% 76% / 0.3);
+    --shadow-glow-teal: 0 0 40px hsl(174 72% 66% / 0.3);
     
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -76,35 +77,96 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
   }
   
-  /* Smooth transitions */
-  * {
-    transition: var(--transition-smooth);
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
   }
   
   /* Glass effect */
-  .glass-blur {
-    backdrop-filter: blur(12px);
-    background: hsl(var(--deep-indigo) / 0.8);
+  .glass-panel {
+    background: rgba(20, 24, 40, 0.65);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid hsl(var(--glass-border) / 0.3);
   }
   
-  /* Scrollbar styling */
+  .glass-blur {
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    background: rgba(20, 24, 40, 0.65);
+    border: 1px solid hsl(var(--glass-border) / 0.3);
+  }
+  
+  /* Animated background */
+  .animated-bg {
+    background: var(--gradient-mesh);
+    animation: mesh-move 20s ease infinite;
+  }
+  
+  @keyframes mesh-move {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+  
+  /* Custom scrollbar */
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
+    height: 4px;
   }
   
   ::-webkit-scrollbar-track {
-    background: hsl(var(--midnight-blue));
+    background: transparent;
   }
   
   ::-webkit-scrollbar-thumb {
-    background: hsl(var(--soft-royal-blue));
-    border-radius: 3px;
+    background: hsl(var(--glass-border) / 0.5);
+    border-radius: 2px;
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--cyan-accent));
+    background: hsl(var(--purple-accent) / 0.5);
+  }
+  
+  /* Chat bubble animations */
+  .chat-bubble-sent {
+    background: var(--gradient-purple-teal);
+    animation: slideInRight 0.3s ease;
+  }
+  
+  .chat-bubble-received {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    animation: slideInLeft 0.3s ease;
+  }
+  
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  /* Particle animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
   }
 }
