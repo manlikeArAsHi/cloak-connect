@@ -96,16 +96,16 @@ const ChatsTab = () => {
           <DialogTrigger asChild>
             <Button
               size="sm"
-              className="bg-gradient-to-r from-cyan-accent to-soft-royal-blue"
+              className="bg-gradient-to-r from-purple-accent to-teal-accent text-deep-black hover:shadow-[var(--shadow-glow-purple)] rounded-2xl"
             >
               <Search className="w-4 h-4 mr-2" />
               Find Users
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-midnight-blue border-soft-royal-blue">
+          <DialogContent className="glass-panel border-glass-border">
             <DialogHeader>
-              <DialogTitle className="text-soft-white">Search Users</DialogTitle>
-              <DialogDescription className="text-grey-blue">
+              <DialogTitle className="text-frosted-white">Search Users</DialogTitle>
+              <DialogDescription className="text-muted-grey">
                 Find and start conversations with other users
               </DialogDescription>
             </DialogHeader>
@@ -117,7 +117,7 @@ const ChatsTab = () => {
       {/* Direct Messages Section */}
       {conversations.length > 0 && (
         <div className="space-y-3">
-          <h3 className="text-sm font-semibold text-grey-blue flex items-center gap-2">
+          <h3 className="text-sm font-semibold text-muted-grey flex items-center gap-2">
             <MessageSquare className="w-4 h-4" />
             Direct Messages
           </h3>
@@ -125,19 +125,17 @@ const ChatsTab = () => {
             <div
               key={conv.id}
               onClick={() => navigate(`/dm/${conv.id}`)}
-              className="glass-blur rounded-2xl p-4 border border-soft-royal-blue/30 hover:border-cyan-accent/50 cursor-pointer transition-all"
+              className="glass-panel rounded-2xl p-4 hover:border-purple-accent/50 transition-all cursor-pointer group"
             >
-              <div className="flex items-start gap-3">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-accent/20 to-deep-indigo flex items-center justify-center flex-shrink-0">
-                  <MessageSquare className="w-6 h-6 text-cyan-accent" />
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-accent/30 to-teal-accent/30 flex items-center justify-center group-hover:shadow-[var(--shadow-glow-purple)] transition-all">
+                  <MessageSquare className="w-5 h-5 text-purple-accent" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-soft-white truncate">
+                  <h3 className="font-semibold text-frosted-white truncate">
                     @{conv.username}
                   </h3>
-                  <p className="text-grey-blue text-sm truncate">
-                    Direct message
-                  </p>
+                  <p className="text-muted-grey text-sm">Direct message</p>
                 </div>
               </div>
             </div>
@@ -148,7 +146,7 @@ const ChatsTab = () => {
       {/* Groups Section */}
       {groups.length > 0 && (
         <div className="space-y-3">
-          <h3 className="text-sm font-semibold text-grey-blue flex items-center gap-2">
+          <h3 className="text-sm font-semibold text-muted-grey flex items-center gap-2">
             <Users className="w-4 h-4" />
             Groups
           </h3>
@@ -156,17 +154,19 @@ const ChatsTab = () => {
             <div
               key={member.id}
               onClick={() => navigate(`/chat/${member.groups.id}`)}
-              className="glass-blur rounded-2xl p-4 border border-soft-royal-blue/30 hover:border-cyan-accent/50 cursor-pointer transition-all"
+              className="glass-panel rounded-2xl p-4 hover:border-purple-accent/50 transition-all cursor-pointer group"
             >
-              <div className="flex items-start gap-3">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-accent/20 to-deep-indigo flex items-center justify-center flex-shrink-0">
-                  <Users className="w-6 h-6 text-cyan-accent" />
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-accent/30 to-teal-accent/30 flex items-center justify-center group-hover:shadow-[var(--shadow-glow-teal)] transition-all">
+                  <span className="text-lg font-bold text-teal-accent">
+                    {member.groups.name.charAt(0)}
+                  </span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-soft-white truncate">
+                  <h3 className="font-semibold text-frosted-white truncate">
                     {member.groups.name}
                   </h3>
-                  <p className="text-grey-blue text-sm truncate">
+                  <p className="text-muted-grey text-sm truncate">
                     {member.groups.description}
                   </p>
                 </div>
@@ -177,10 +177,10 @@ const ChatsTab = () => {
       )}
 
       {groups.length === 0 && conversations.length === 0 && (
-        <div className="text-center py-12">
-          <MessageSquare className="w-12 h-12 text-grey-blue mx-auto mb-4" />
-          <p className="text-grey-blue">No chats yet</p>
-          <p className="text-grey-blue text-sm mt-2">
+        <div className="text-center py-12 glass-panel rounded-2xl">
+          <MessageSquare className="w-12 h-12 text-muted-grey mx-auto mb-4" />
+          <p className="text-muted-grey">No chats yet</p>
+          <p className="text-muted-grey text-sm mt-2">
             Search for users to start chatting or join a group
           </p>
         </div>

@@ -36,7 +36,7 @@ const SpecialAccessButton = () => {
     <Button
       onClick={() => navigate("/special-access")}
       variant="outline"
-      className="gap-2 border-primary/30 text-primary hover:bg-primary/10"
+      className="gap-2 border-purple-accent/30 text-purple-accent hover:bg-purple-accent/10 rounded-2xl"
     >
       <Shield className="w-4 h-4" />
       Special Access
