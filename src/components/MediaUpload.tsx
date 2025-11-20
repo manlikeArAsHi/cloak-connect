@@ -45,13 +45,13 @@ const MediaUpload = ({ onMediaSelect, onClear, selectedFile }: MediaUploadProps)
       />
 
       {selectedFile ? (
-        <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-muted border border-border">
+        <div className="flex items-center gap-2 px-3 py-2 rounded-xl glass-panel border-glass-border">
           {isImage ? (
-            <ImageIcon className="w-4 h-4 text-primary" />
+            <ImageIcon className="w-4 h-4 text-purple-accent" />
           ) : (
-            <File className="w-4 h-4 text-primary" />
+            <File className="w-4 h-4 text-purple-accent" />
           )}
-          <span className="text-sm text-foreground truncate max-w-[120px]">
+          <span className="text-sm text-frosted-white truncate max-w-[120px]">
             {selectedFile.name}
           </span>
           <Button
@@ -59,7 +59,7 @@ const MediaUpload = ({ onMediaSelect, onClear, selectedFile }: MediaUploadProps)
             size="icon"
             variant="ghost"
             onClick={onClear}
-            className="h-6 w-6 text-muted-foreground hover:text-destructive"
+            className="h-6 w-6 text-muted-grey hover:text-destructive"
           >
             <X className="w-3 h-3" />
           </Button>
@@ -70,7 +70,7 @@ const MediaUpload = ({ onMediaSelect, onClear, selectedFile }: MediaUploadProps)
           size="icon"
           variant="ghost"
           onClick={() => fileInputRef.current?.click()}
-          className="text-muted-foreground hover:text-primary"
+          className="text-muted-grey hover:text-purple-accent"
         >
           <Paperclip className="w-5 h-5" />
         </Button>

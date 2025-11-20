@@ -51,10 +51,10 @@ const VoiceNoteRecorder = ({ onRecordingComplete }: VoiceNoteRecorderProps) => {
       size="icon"
       variant="ghost"
       onClick={isRecording ? stopRecording : startRecording}
-      className={`${
+      className={`w-11 h-11 rounded-xl ${
         isRecording
-          ? "text-red-500 animate-pulse"
-          : "text-grey-blue hover:text-cyan-accent"
+          ? "text-destructive animate-pulse"
+          : "text-muted-grey hover:text-purple-accent"
       }`}
     >
       {isRecording ? <Square className="w-5 h-5" /> : <Mic className="w-5 h-5" />}

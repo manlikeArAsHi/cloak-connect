@@ -77,34 +77,34 @@ const StatusesTab = () => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-soft-white">Status Updates</h2>
+        <h2 className="text-xl font-semibold text-frosted-white">Status Updates</h2>
         <Button
           onClick={() => setShowDialog(true)}
           size="icon"
-          className="rounded-full bg-gradient-to-br from-cyan-accent to-cyan-accent/80"
+          className="rounded-full bg-gradient-to-br from-purple-accent to-teal-accent hover:shadow-[var(--shadow-glow-purple)] text-deep-black"
         >
-          <Plus className="w-5 h-5 text-midnight-blue" />
+          <Plus className="w-5 h-5" />
         </Button>
       </div>
 
       <div className="space-y-3">
         {statuses.length === 0 ? (
-          <p className="text-grey-blue text-center py-8">
+          <p className="text-muted-grey text-center py-8 glass-panel rounded-2xl">
             No status updates yet. Be the first!
           </p>
         ) : (
           statuses.map((status) => (
             <div
               key={status.id}
-              className="glass-blur rounded-2xl p-4 border border-soft-royal-blue/30"
+              className="glass-panel rounded-2xl p-4"
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <p className="text-cyan-accent font-medium text-sm">
+                  <p className="text-teal-accent font-medium text-sm">
                     {status.profiles.username}
                   </p>
-                  <p className="text-soft-white mt-2">{status.content}</p>
-                  <p className="text-grey-blue text-xs mt-2">
+                  <p className="text-frosted-white mt-2">{status.content}</p>
+                  <p className="text-muted-grey text-xs mt-2">
                     {new Date(status.created_at).toLocaleString()}
                   </p>
                 </div>

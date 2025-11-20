@@ -84,7 +84,7 @@ const GroupsTab = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold text-soft-white mb-4">
+        <h2 className="text-xl font-semibold text-frosted-white mb-4">
           Level Groups
         </h2>
         <div className="space-y-3">
@@ -93,18 +93,18 @@ const GroupsTab = () => {
             return (
               <div
                 key={group.id}
-                className="glass-blur rounded-2xl p-4 border border-soft-royal-blue/30"
+                className="glass-panel rounded-2xl p-4"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-soft-royal-blue to-deep-indigo flex items-center justify-center">
-                      <Hash className="w-6 h-6 text-cyan-accent" />
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-accent/30 to-teal-accent/30 flex items-center justify-center">
+                      <Hash className="w-6 h-6 text-teal-accent" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-soft-white">
+                      <h3 className="font-semibold text-frosted-white">
                         {group.name}
                       </h3>
-                      <p className="text-grey-blue text-sm">
+                      <p className="text-muted-grey text-sm">
                         {group.description}
                       </p>
                     </div>
@@ -113,8 +113,8 @@ const GroupsTab = () => {
                     onClick={() => isMember ? leaveGroup(group.id) : joinGroup(group.id)}
                     className={`px-6 py-2 rounded-2xl font-medium transition-all ${
                       isMember
-                        ? "bg-grey-blue/20 text-grey-blue hover:bg-grey-blue/30"
-                        : "bg-gradient-to-r from-cyan-accent to-cyan-accent/80 text-midnight-blue hover:from-cyan-accent/90"
+                        ? "bg-glass-panel text-muted-grey hover:bg-glass-border"
+                        : "bg-gradient-to-r from-purple-accent to-teal-accent text-deep-black hover:shadow-[var(--shadow-glow-purple)]"
                     }`}
                   >
                     {isMember ? "Leave" : "Join"}
